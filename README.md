@@ -46,7 +46,7 @@ npm run dev
 
 3. Enter your Google Gemini API key in the input field at the top of the page
 
-4. Click "Upload PDFs or Images" and select one or more receipt files
+4. Click "Select PDFs or Images" and select one or more receipt files
 
 5. Wait for processing to complete. Files will be processed sequentially, and you'll see status updates in real-time
 

@@ -33,8 +33,8 @@ export function FileUpload({ onFilesSelected, accept = '.pdf,.jpg,.jpeg,.png' }:
         onChange={handleFileChange}
         style={{ display: 'none' }}
       />
-      <button onClick={handleClick} className="upload-button">
-        Upload PDFs or Images
+      <button onClick={handleClick} className="select-files-button">
+        Select PDFs or Images
       </button>
     </div>
   );

@@ -24,6 +24,7 @@ function App() {
     return [];
   });
   const [startProcessing, setStartProcessing] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Save receipts to localStorage whenever they change
   useEffect(() => {
@@ -33,6 +34,17 @@ function App() {
       console.error('Failed to save receipts to localStorage:', error);
     }
   }, [receipts]);
+
+  // Auto-dismiss error message after 10 seconds
+  useEffect(() => {
+    if (errorMessage) {
+      const timeoutId = setTimeout(() => {
+        setErrorMessage(null);
+      }, 10000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [errorMessage]);
 
   const handleFilesSelected = (newFiles: File[]) => {
     const newProcessedFiles: ProcessedFile[] = newFiles.map((file) => ({
@@ -83,6 +95,9 @@ function App() {
       try {
         const receiptData = await processReceipt(queuedFile.file, apiKey);
         
+        // Clear any previous error messages on success
+        setErrorMessage(null);
+        
         // Update status to processed and add receipt data
         setFiles((prev) =>
           prev.map((f) =>
@@ -94,13 +109,17 @@ function App() {
 
         setReceipts((prev) => [...prev, receiptData]);
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        const errorMsg = error instanceof Error ? error.message : 'Unknown error occurred';
+        const displayMessage = `Failed to process ${queuedFile.file.name}: ${errorMsg}`;
+        
+        // Show prominent error message
+        setErrorMessage(displayMessage);
         
         // Update status to error
         setFiles((prev) =>
           prev.map((f) =>
             f.id === queuedFile.id
-              ? { ...f, status: 'error', error: errorMessage }
+              ? { ...f, status: 'error', error: errorMsg }
               : f
           )
         );
@@ -138,6 +157,21 @@ function App() {
   return (
     <div className="app">
       <h1>Receipt Parser</h1>
+      {errorMessage && (
+        <div className="error-notification">
+          <div className="error-notification-content">
+            <span className="error-icon">⚠️</span>
+            <span className="error-text">{errorMessage}</span>
+            <button
+              onClick={() => setErrorMessage(null)}
+              className="error-dismiss"
+              aria-label="Dismiss error"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
       <div className="api-key-section">
         <label htmlFor="api-key">Google Gemini API Key:</label>
         <input
