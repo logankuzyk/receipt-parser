@@ -93,7 +93,6 @@ h1 {
 }
 
 .api-key-input {
-  width: 100%;
   padding: 0.75rem;
   font-size: 1rem;
   border: 1px solid var(--nord3);

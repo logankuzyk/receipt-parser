@@ -1,7 +1,8 @@
 {
   "name": "receipt-parser",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "AI-powered receipt parser that extracts structured data from receipt images and PDFs using Google Gemini",
   "type": "module",
   "scripts": {
     "dev": "vite",

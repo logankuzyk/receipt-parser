@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#2e3440"/>
+  
+  <!-- Title -->
+  <text x="600" y="200" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="#eceff4" text-anchor="middle">Receipt Parser</text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="280" font-family="Arial, sans-serif" font-size="36" fill="#88c0d0" text-anchor="middle">AI-Powered Receipt Data Extraction</text>
+  
+  <!-- Receipt illustration -->
+  <rect x="400" y="350" width="400" height="200" fill="#eceff4" rx="8" stroke="#88c0d0" stroke-width="3"/>
+  <line x1="450" y1="400" x2="750" y2="400" stroke="#88c0d0" stroke-width="2"/>
+  <line x1="450" y1="450" x2="750" y2="450" stroke="#88c0d0" stroke-width="2"/>
+  <line x1="450" y1="500" x2="750" y2="500" stroke="#5e81ac" stroke-width="3"/>
+  
+  <!-- Features -->
+  <text x="600" y="480" font-family="Arial, sans-serif" font-size="24" fill="#4c566a" text-anchor="middle">Upload • Extract • Export</text>
+</svg>
+
