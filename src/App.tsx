@@ -123,6 +123,18 @@ function App() {
     setStartProcessing(true);
   };
 
+  const handleUpdateReceipt = (index: number, updatedReceipt: ReceiptData) => {
+    setReceipts((prev) => {
+      const updated = [...prev];
+      updated[index] = updatedReceipt;
+      return updated;
+    });
+  };
+
+  const handleDeleteReceipt = (index: number) => {
+    setReceipts((prev) => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <div className="app">
       <h1>Receipt Parser</h1>
@@ -146,7 +158,11 @@ function App() {
         </form>
       )}
       <FileList files={files} />
-      <ReceiptTable receipts={receipts} />
+      <ReceiptTable 
+        receipts={receipts} 
+        onUpdate={handleUpdateReceipt}
+        onDelete={handleDeleteReceipt}
+      />
     </div>
   );
 }
