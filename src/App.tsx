@@ -7,6 +7,7 @@ import type { ProcessedFile, ReceiptData } from './types/receipt';
 import './App.css';
 
 function App() {
+  const [apiKey, setApiKey] = useState<string>('');
   const [files, setFiles] = useState<ProcessedFile[]>([]);
   const [receipts, setReceipts] = useState<ReceiptData[]>([]);
 
@@ -40,8 +41,19 @@ function App() {
         )
       );
 
+      if (!apiKey) {
+        setFiles((prev) =>
+          prev.map((f) =>
+            f.id === queuedFile.id
+              ? { ...f, status: 'error', error: 'API key is required' }
+              : f
+          )
+        );
+        return;
+      }
+
       try {
-        const receiptData = await processReceipt(queuedFile.file);
+        const receiptData = await processReceipt(queuedFile.file, apiKey);
         
         // Update status to processed and add receipt data
         setFiles((prev) =>
@@ -68,11 +80,21 @@ function App() {
     };
 
     processFiles();
-  }, [files]);
+  }, [files, apiKey]);
 
   return (
     <div className="app">
       <h1>Receipt Parser</h1>
+      <div className="api-key-section">
+        <label htmlFor="api-key">Google Gemini API Key:</label>
+        <input
+          id="api-key"
+          value={apiKey}
+          onChange={(e) => setApiKey(e.target.value)}
+          placeholder="Enter your API key"
+          className="api-key-input"
+        />
+      </div>
       <FileUpload onFilesSelected={handleFilesSelected} />
       <FileList files={files} />
       <ReceiptTable receipts={receipts} />

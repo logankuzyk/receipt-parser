@@ -1,5 +1,5 @@
 import { generateObject } from 'ai';
-import { google } from '@ai-sdk/google';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { z } from 'zod';
 import type { ReceiptData } from '../types/receipt';
 
@@ -10,20 +10,21 @@ const receiptSchema = z.object({
   total: z.number().describe('The total amount including taxes. Positive for purchases, negative for returns'),
 });
 
-export async function processReceipt(file: File): Promise<ReceiptData> {
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-  
+export async function processReceipt(file: File, apiKey: string): Promise<ReceiptData> {
   if (!apiKey) {
-    throw new Error('VITE_GEMINI_API_KEY is not set in environment variables');
+    throw new Error('API key is required');
   }
 
   // Convert file to base64 data URL
   const base64 = await fileToBase64(file);
 
-  // Create model instance - API key should be set via GOOGLE_GENERATIVE_AI_API_KEY env var
-  // For Vite, we need to map VITE_GEMINI_API_KEY to the expected variable
-  // Note: The provider may need GOOGLE_GENERATIVE_AI_API_KEY, but in browser we use VITE_ prefix
-  const model = google('gemini-2.5-flash');
+  // Create provider instance with API key
+  const googleProvider = createGoogleGenerativeAI({
+    apiKey: apiKey,
+  });
+
+  // Create model instance
+  const model = googleProvider('gemini-2.5-flash');
 
   const { object } = await generateObject({
     model,
