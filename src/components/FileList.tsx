@@ -8,15 +8,15 @@ export function FileList({ files }: FileListProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'queued':
-        return '#666';
+        return 'var(--nord3)';
       case 'processing':
-        return '#2196F3';
+        return 'var(--nord8)';
       case 'processed':
-        return '#4CAF50';
+        return 'var(--nord14)';
       case 'error':
-        return '#F44336';
+        return 'var(--nord11)';
       default:
-        return '#666';
+        return 'var(--nord3)';
     }
   };
 

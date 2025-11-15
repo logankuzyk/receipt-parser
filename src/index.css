@@ -1,11 +1,29 @@
 :root {
+  /* Nord Color Palette */
+  --nord0: #2e3440;   /* Polar Night - Background */
+  --nord1: #3b4252;   /* Polar Night - Elevated UI */
+  --nord2: #434c5e;   /* Polar Night - Active line */
+  --nord3: #4c566a;   /* Polar Night - Subtle UI */
+  --nord4: #d8dee9;   /* Snow Storm - Variables */
+  --nord5: #e5e9f0;   /* Snow Storm - Subtle text */
+  --nord6: #eceff4;   /* Snow Storm - Elevated text */
+  --nord7: #8fbcbb;   /* Frost - Secondary accent */
+  --nord8: #88c0d0;   /* Frost - Primary accent */
+  --nord9: #81a1c1;   /* Frost - Secondary elements */
+  --nord10: #5e81ac;  /* Frost - Tertiary elements */
+  --nord11: #bf616a;  /* Aurora - Errors */
+  --nord12: #d08770;  /* Aurora - Advanced */
+  --nord13: #ebcb8b;  /* Aurora - Warnings */
+  --nord14: #a3be8c;  /* Aurora - Success */
+  --nord15: #b48ead;  /* Aurora - Numbers */
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: dark;
+  color: var(--nord6);
+  background-color: var(--nord0);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,11 +33,12 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: var(--nord8);
   text-decoration: inherit;
 }
+
 a:hover {
-  color: #535bf2;
+  color: var(--nord7);
 }
 
 body {
@@ -28,11 +47,13 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--nord0);
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  color: var(--nord6);
 }
 
 button {
@@ -42,27 +63,19 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--nord1);
+  color: var(--nord6);
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  transition: all 0.25s;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button:hover {
+  background-color: var(--nord2);
+  border-color: var(--nord8);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--nord8);
+  outline-offset: 2px;
 }
