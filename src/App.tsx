@@ -129,8 +129,7 @@ function App() {
     processFiles();
   }, [files, apiKey, startProcessing]);
 
-  const handleStartProcessing = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleStartProcessing = () => {
     if (!apiKey) {
       alert('Please enter your API key first');
       return;
@@ -183,14 +182,14 @@ function App() {
           className="api-key-input"
         />
       </div>
-      <FileUpload onFilesSelected={handleFilesSelected} />
-      {files.length > 0 && (
-        <form onSubmit={handleStartProcessing} className="process-form">
-          <button type="submit" className="process-button">
+      <div className="button-group">
+        <FileUpload onFilesSelected={handleFilesSelected} />
+        {files.length > 0 && (
+          <button onClick={handleStartProcessing} className="process-button">
             Start Processing
           </button>
-        </form>
-      )}
+        )}
+      </div>
       <FileList files={files} />
       <ReceiptTable 
         receipts={receipts} 

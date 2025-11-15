@@ -113,7 +113,16 @@ h1 {
   box-shadow: 0 0 0 2px rgba(136, 192, 208, 0.2);
 }
 
-.select-files-button {
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.select-files-button,
+.process-button {
   background-color: var(--nord8);
   color: var(--nord0);
   border: none;
@@ -121,40 +130,35 @@ h1 {
   font-size: 1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
   font-weight: 600;
+  white-space: nowrap;
 }
 
-.select-files-button:hover {
-  background-color: var(--nord7);
-}
-
-.process-form {
-  margin: 1.5rem 0;
-  display: flex;
-  justify-content: center;
-}
-
-.process-button {
-  background-color: var(--nord9);
-  color: var(--nord0);
-  border: none;
-  padding: 0.75rem 2rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-weight: 600;
-}
-
+.select-files-button:hover,
 .process-button:hover {
-  background-color: var(--nord8);
+  background-color: var(--nord7);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(136, 192, 208, 0.3);
+}
+
+.select-files-button:active,
+.process-button:active {
+  transform: translateY(0);
 }
 
 .process-button:disabled {
   background-color: var(--nord3);
   color: var(--nord5);
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.process-button:disabled:hover {
+  background-color: var(--nord3);
+  transform: none;
+  box-shadow: none;
 }
 
 .file-list {
@@ -204,6 +208,7 @@ h1 {
 
 .receipt-table-container {
   margin-top: 2rem;
+  scroll-behavior: smooth;
 }
 
 .table-actions {
@@ -213,19 +218,25 @@ h1 {
 }
 
 .action-button {
-  background-color: var(--nord14);
+  background-color: var(--nord8);
   color: var(--nord0);
   border: none;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
   font-weight: 600;
 }
 
 .action-button:hover {
-  background-color: var(--nord13);
+  background-color: var(--nord7);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(136, 192, 208, 0.3);
+}
+
+.action-button:active {
+  transform: translateY(0);
 }
 
 .receipt-table {
@@ -258,6 +269,24 @@ h1 {
 
 .receipt-table tr:last-child td {
   border-bottom: none;
+}
+
+.receipt-table tr.newly-added {
+  animation: highlightRow 2s ease-out;
+}
+
+@keyframes highlightRow {
+  0% {
+    background-color: var(--nord8);
+    transform: scale(1.02);
+  }
+  50% {
+    background-color: rgba(136, 192, 208, 0.3);
+  }
+  100% {
+    background-color: transparent;
+    transform: scale(1);
+  }
 }
 
 .receipt-table .positive {

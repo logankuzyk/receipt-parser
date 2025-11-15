@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { copyTSV, downloadCSV } from '../utils/export';
 import type { ReceiptData } from '../types/receipt';
 
@@ -12,6 +12,9 @@ export function ReceiptTable({ receipts, onUpdate, onDelete }: ReceiptTableProps
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [pendingDeleteIndex, setPendingDeleteIndex] = useState<number | null>(null);
   const [editValues, setEditValues] = useState<ReceiptData | null>(null);
+  const [highlightedIndex, setHighlightedIndex] = useState<number | null>(null);
+  const rowRefs = useRef<(HTMLTableRowElement | null)[]>([]);
+  const prevReceiptsLength = useRef<number>(receipts.length);
 
   const formatCurrency = (amount: number): string => {
     const sign = amount >= 0 ? '+' : '';
@@ -60,6 +63,35 @@ export function ReceiptTable({ receipts, onUpdate, onDelete }: ReceiptTableProps
     }
   };
 
+  // Scroll to newly added row and highlight it
+  useEffect(() => {
+    if (receipts.length > prevReceiptsLength.current) {
+      const newIndex = receipts.length - 1;
+      const rowElement = rowRefs.current[newIndex];
+      
+      if (rowElement) {
+        // Scroll to the row smoothly
+        rowElement.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'nearest',
+          inline: 'nearest'
+        });
+        
+        // Highlight the row
+        setHighlightedIndex(newIndex);
+        
+        // Remove highlight after 1 second
+        const timeoutId = setTimeout(() => {
+          setHighlightedIndex(null);
+        }, 1000);
+        
+        return () => clearTimeout(timeoutId);
+      }
+    }
+    
+    prevReceiptsLength.current = receipts.length;
+  }, [receipts.length]);
+
   if (receipts.length === 0) {
     return null;
   }
@@ -87,7 +119,13 @@ export function ReceiptTable({ receipts, onUpdate, onDelete }: ReceiptTableProps
         </thead>
         <tbody>
           {receipts.map((receipt, index) => (
-            <tr key={index}>
+            <tr 
+              key={index}
+              ref={(el) => {
+                rowRefs.current[index] = el;
+              }}
+              className={highlightedIndex === index ? 'newly-added' : ''}
+            >
               {editingIndex === index && editValues ? (
                 <>
                   <td>

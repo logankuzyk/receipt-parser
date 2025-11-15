@@ -24,7 +24,7 @@ export function FileUpload({ onFilesSelected, accept = '.pdf,.jpg,.jpeg,.png' }:
   };
 
   return (
-    <div>
+    <>
       <input
         ref={fileInputRef}
         type="file"
@@ -36,7 +36,7 @@ export function FileUpload({ onFilesSelected, accept = '.pdf,.jpg,.jpeg,.png' }:
       <button onClick={handleClick} className="select-files-button">
         Select PDFs or Images
       </button>
-    </div>
+    </>
   );
 }
 
