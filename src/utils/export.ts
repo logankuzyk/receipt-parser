@@ -5,11 +5,12 @@ export function copyTSV(data: ReceiptData[]): void {
     return;
   }
 
-  const headers = ['Date', 'Merchant', 'Description', 'Total'];
+  const headers = ['Date', 'Merchant', 'Description', 'Card Last 4', 'Total'];
   const rows = data.map((receipt) => [
     receipt.date,
     receipt.merchant,
     receipt.description,
+    receipt.cardLast4 || '',
     receipt.total.toString(),
   ]);
 
@@ -27,11 +28,12 @@ export function downloadCSV(data: ReceiptData[]): void {
     return;
   }
 
-  const headers = ['Date', 'Merchant', 'Description', 'Total'];
+  const headers = ['Date', 'Merchant', 'Description', 'Card Last 4', 'Total'];
   const rows = data.map((receipt) => [
     receipt.date,
     receipt.merchant,
     receipt.description,
+    receipt.cardLast4 || '',
     receipt.total.toString(),
   ]);
 

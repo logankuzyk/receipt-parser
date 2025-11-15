@@ -8,6 +8,7 @@ const receiptSchema = z.object({
   merchant: z.string().describe('The name of the merchant/store'),
   description: z.string().max(50).describe('A brief description of items purchased (5 words or less)'),
   total: z.number().describe('The total amount including taxes. Positive for purchases, negative for returns'),
+  cardLast4: z.string().optional().describe('The last 4 digits of the card number used for the transaction, if visible on the receipt'),
 });
 
 export async function processReceipt(file: File, apiKey: string): Promise<ReceiptData> {
@@ -42,6 +43,7 @@ export async function processReceipt(file: File, apiKey: string): Promise<Receip
     - merchant: The name of the merchant/store
     - description: A brief description of the items purchased (5 words or less)
     - total: The total amount including taxes. Use positive numbers for purchases and negative numbers for returns/refunds
+    - cardLast4: The last 4 digits of the card number used for the transaction, if visible on the receipt (optional)
     
     Analyze the receipt carefully and extract accurate information.`,
           },

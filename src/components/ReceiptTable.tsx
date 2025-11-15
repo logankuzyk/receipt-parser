@@ -31,6 +31,7 @@ export function ReceiptTable({ receipts }: ReceiptTableProps) {
             <th>Date</th>
             <th>Merchant</th>
             <th>Description</th>
+            <th>Card Last 4</th>
             <th>Total</th>
           </tr>
         </thead>
@@ -40,6 +41,7 @@ export function ReceiptTable({ receipts }: ReceiptTableProps) {
               <td>{receipt.date}</td>
               <td>{receipt.merchant}</td>
               <td>{receipt.description}</td>
+              <td>{receipt.cardLast4 || '-'}</td>
               <td className={receipt.total >= 0 ? 'positive' : 'negative'}>
                 {formatCurrency(receipt.total)}
               </td>
