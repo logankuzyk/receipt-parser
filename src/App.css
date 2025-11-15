@@ -64,6 +64,34 @@ h1 {
   background-color: var(--nord7);
 }
 
+.process-form {
+  margin: 1.5rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.process-button {
+  background-color: var(--nord9);
+  color: var(--nord0);
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-weight: 600;
+}
+
+.process-button:hover {
+  background-color: var(--nord8);
+}
+
+.process-button:disabled {
+  background-color: var(--nord3);
+  color: var(--nord5);
+  cursor: not-allowed;
+}
+
 .file-list {
   margin: 2rem 0;
 }

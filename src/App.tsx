@@ -6,10 +6,33 @@ import { processReceipt } from './utils/gemini';
 import type { ProcessedFile, ReceiptData } from './types/receipt';
 import './App.css';
 
+const STORAGE_KEY = 'receipt-parser-data';
+
 function App() {
   const [apiKey, setApiKey] = useState<string>('');
   const [files, setFiles] = useState<ProcessedFile[]>([]);
-  const [receipts, setReceipts] = useState<ReceiptData[]>([]);
+  const [receipts, setReceipts] = useState<ReceiptData[]>(() => {
+    // Load receipts from localStorage on initial render
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        return JSON.parse(stored);
+      }
+    } catch (error) {
+      console.error('Failed to load receipts from localStorage:', error);
+    }
+    return [];
+  });
+  const [startProcessing, setStartProcessing] = useState<boolean>(false);
+
+  // Save receipts to localStorage whenever they change
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(receipts));
+    } catch (error) {
+      console.error('Failed to save receipts to localStorage:', error);
+    }
+  }, [receipts]);
 
   const handleFilesSelected = (newFiles: File[]) => {
     const newProcessedFiles: ProcessedFile[] = newFiles.map((file) => ({
@@ -22,6 +45,10 @@ function App() {
   };
 
   useEffect(() => {
+    if (!startProcessing) {
+      return; // Don't process until button is clicked
+    }
+
     const processFiles = async () => {
       // Check if any file is already being processed
       const isProcessing = files.some((f) => f.status === 'processing');
@@ -31,6 +58,7 @@ function App() {
 
       const queuedFile = files.find((f) => f.status === 'queued');
       if (!queuedFile) {
+        setStartProcessing(false); // Reset when all files are processed
         return; // No files to process
       }
 
@@ -80,7 +108,20 @@ function App() {
     };
 
     processFiles();
-  }, [files, apiKey]);
+  }, [files, apiKey, startProcessing]);
+
+  const handleStartProcessing = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!apiKey) {
+      alert('Please enter your API key first');
+      return;
+    }
+    if (files.length === 0) {
+      alert('Please upload at least one file first');
+      return;
+    }
+    setStartProcessing(true);
+  };
 
   return (
     <div className="app">
@@ -90,12 +131,20 @@ function App() {
         <input
           id="api-key"
           value={apiKey}
+          type="password"
           onChange={(e) => setApiKey(e.target.value)}
           placeholder="Enter your API key"
           className="api-key-input"
         />
       </div>
       <FileUpload onFilesSelected={handleFilesSelected} />
+      {files.length > 0 && (
+        <form onSubmit={handleStartProcessing} className="process-form">
+          <button type="submit" className="process-button">
+            Start Processing
+          </button>
+        </form>
+      )}
       <FileList files={files} />
       <ReceiptTable receipts={receipts} />
     </div>
