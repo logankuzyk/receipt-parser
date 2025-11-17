@@ -3,6 +3,7 @@ import { FileUpload } from './components/FileUpload';
 import { FileList } from './components/FileList';
 import { ReceiptTable } from './components/ReceiptTable';
 import { processReceipt } from './utils/gemini';
+import { formatReceiptFilename, downloadFile } from './utils/download';
 import type { ProcessedFile, ReceiptData } from './types/receipt';
 import './App.css';
 
@@ -108,6 +109,10 @@ function App() {
         );
 
         setReceipts((prev) => [...prev, receiptData]);
+
+        // Download the file with formatted filename
+        const formattedFilename = formatReceiptFilename(receiptData, queuedFile.file.name);
+        downloadFile(queuedFile.file, formattedFilename);
       } catch (error) {
         const errorMsg = error instanceof Error ? error.message : 'Unknown error occurred';
         const displayMessage = `Failed to process ${queuedFile.file.name}: ${errorMsg}`;
