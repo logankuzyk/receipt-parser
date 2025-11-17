@@ -28,9 +28,9 @@ export function formatReceiptFilename(
   // Sanitize merchant name (only alphabetical characters)
   const merchant = sanitizeMerchantName(receiptData.merchant || 'Unknown');
 
-  // Format amount in cents (no decimal)
-  const amountInCents = Math.abs(Math.round(receiptData.total * 100));
-  const amount = amountInCents.toString();
+  // Format amount in dollars (rounded to nearest dollar) with dollar sign prefix
+  const amountInDollars = Math.abs(Math.round(receiptData.total));
+  const amount = `$${amountInDollars}`;
 
   // Get original file extension
   const lastDotIndex = originalFilename.lastIndexOf('.');
